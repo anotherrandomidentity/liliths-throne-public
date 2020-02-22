@@ -2,6 +2,7 @@ name: Test Workflow
 
 on:
   release:
+    types: [edited]
 
 
 jobs:
