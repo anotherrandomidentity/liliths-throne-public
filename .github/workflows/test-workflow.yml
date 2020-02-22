@@ -1,8 +1,7 @@
 name: Test Workflow
 
 on:
-  release:
-    types: [created]
+  push:
 
 
 jobs:
