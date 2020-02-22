@@ -1,7 +1,7 @@
 name: Test Workflow
 
 on:
-  release:
+  push:
 
 
 jobs:
@@ -12,4 +12,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Test One
-      run: echo tag pushed [${GITHUB_REF}]
+      run: echo tag pushed [${{ github.event.push.ref }}]
