@@ -1,0 +1,61 @@
+name: LT Release
+
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+
+
+    - name: Build
+      run: mvn -B package --file pom.xml
+
+    - name: Clean Up Build Files
+      run: rm -rf target/classes; 
+        rm -rf target/generated-sources;
+        rm -rf target/maven-archiver;
+        mv target/game-1.jar target/liliths-throne-${{ github.event.release.tag_name }}.jar
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: liliths-throne-${{ github.event.release.tag_name }}
+        path: target
+        id: lt-build-artifact
+
+    - name: Upload Release Asset (JAR)
+      id: upload-release-asset-jar
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./target/liliths-throne-${{ github.event.release.tag_name }}.jar
+        asset_name: liliths-throne-${{ github.event.release.tag_name }}.jar
+        asset_content_type: application/zip  
+
+    - name: Zip Release Asset
+      run: mv target liliths-throne; zip -r liliths-throne-${{ github.event.release.tag_name }}.zip liliths-throne
+
+    - name: Upload Release Asset (ZIP)
+      id: upload-release-asset-zip
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./liliths-throne-${{ github.event.release.tag_name }}.zip
+        asset_name: liliths-throne-${{ github.event.release.tag_name }}.zip
+        asset_content_type: application/zip  
+        
+    
