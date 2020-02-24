@@ -15,8 +15,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:  
-      lt_filename: ${{ lt_base_filename }}-${{ lt_tag }}
 
 
     steps:
@@ -28,6 +26,8 @@ jobs:
         local_var: something
       run: |
         echo asdf
+        echo one [$lt_base_filename]
+        echo two [${{ lt_base_filename }}]
       
 
         
