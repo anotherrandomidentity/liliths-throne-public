@@ -29,7 +29,7 @@ jobs:
         echo one [$lt_base_filename]
         echo two [${{ env.lt_base_filename }}]
         echo local_var one [$local_var]
-        echo local_var two [${{ local_var }}]
+        echo local_var two [${{ env.local_var }}]
       
 
         
