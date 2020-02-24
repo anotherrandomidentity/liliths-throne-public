@@ -29,10 +29,7 @@ jobs:
         local_var: something
       run: |
         echo See what works ....
-        echo local_var [$local_var]
-        echo local_var [${ local_var }]
-        echo local_var [${{ local_var }}]
-        echo local_var [${{ env.local_var }}]
+
         
       
           
