@@ -20,23 +20,19 @@ jobs:
 
 
     steps:
-  
-     - name: Debug Stuff    
-       env:
-         lt_jar_filename: ${{ env.lt_filename }}.jar
-         lt_jar_md5_filename: ${{ env.lt_filename }}-jar-checksum.txt
-         lt_zip_filename: ${{ env.lt_filename }}.zip
-         lt_zip_md5_filename: ${{ env.lt_filename }}-zip-checksum.txt
-       run: |
-         echo adsf
-          
-
+    - name: Debug Stuff       
+      env:
+        lt_jar_filename: ${{ env.lt_filename }}.jar
+        lt_jar_md5_filename: ${{ env.lt_filename }}-jar-checksum.txt
+        lt_zip_filename: ${{ env.lt_filename }}.zip
+        lt_zip_md5_filename: ${{ env.lt_filename }}-zip-checksum.txt
+      run: |
+        echo adsf
+        echo querty
+ 
+ 
+ 
       
-
-        
-      
-          
-          
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
