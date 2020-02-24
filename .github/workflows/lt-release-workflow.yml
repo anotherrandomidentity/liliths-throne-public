@@ -8,17 +8,15 @@ on:
 
 env:
     DEBUG: true
-    
-
+    lt_base_filename: liliths-throne
+    lt_tag: ${{ github.event.release.tag_name }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      lt_tag: ${{ github.event.release.tag_name }}
-      lt_base_filename: liliths-throne
-      lt_filename: ${lt_base_filename}-${lt_tag}
+    env:  
+      lt_filename: ${{ env.lt_base_filename }}-${{ env.lt_tag }}
 
 
     steps:
