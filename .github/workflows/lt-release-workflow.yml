@@ -24,12 +24,13 @@ jobs:
     - name: Debug Stuff
       env:
         local_var: something
+        var_two: something-${{ env.lt_base_filename }}-else
       run: |
         echo asdf
         echo one [$lt_base_filename]
         echo two [${{ env.lt_base_filename }}]
-        echo local_var one [$local_var]
         echo local_var two [${{ env.local_var }}]
+        echo maybe [${{ env.var_two }}]
       
 
         
