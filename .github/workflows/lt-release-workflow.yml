@@ -9,28 +9,28 @@ on:
 env:
     DEBUG: true
     lt_base_filename: liliths-throne
-    lt_tag: ${{ github.event.release.tag_name }}
+    lt_tag: t${{ github.event.release.tag_name }}t
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      lt_filename: ${{ env.lt_base_filename }}-${{ env.lt_tag }}
 
 
     steps:
+  
+     - name: Debug Stuff    
+       env:
+         lt_jar_filename: ${{ env.lt_filename }}.jar
+         lt_jar_md5_filename: ${{ env.lt_filename }}-jar-checksum.txt
+         lt_zip_filename: ${{ env.lt_filename }}.zip
+         lt_zip_md5_filename: ${{ env.lt_filename }}-zip-checksum.txt
+       run: |
+         echo adsf
+          
 
-          
-          
-    - name: Debug Stuff
-      env:
-        local_var: something
-        var_two: something-${{ env.lt_base_filename }}-else
-      run: |
-        echo asdf
-        echo one [$lt_base_filename]
-        echo two [${{ env.lt_base_filename }}]
-        echo local_var two [${{ env.local_var }}]
-        echo maybe [${{ env.var_two }}]
       
 
         
