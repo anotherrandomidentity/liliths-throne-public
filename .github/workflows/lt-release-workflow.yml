@@ -10,11 +10,11 @@ env:
     
     lt_tag: ${{ github.event.release.tag_name }}
     lt_base_filename: liliths-throne
-    lt_filename: ${{ env.lt_base_filename }}-${{ env.lt_tag }}
-    lt_jar_filename: ${{ env.lt_filename }}.jar
-    lt_jar_md5_filename: ${{ env.lt_filename }}-jar-checksum.txt
-    lt_zip_filename: ${{ env.lt_filename }}.zip
-    lt_zip_md5_filename: ${{ env.lt_filename }}-zip-checksum.txt
+    lt_filename: env.lt_base_filename-env.lt_tag
+    lt_jar_filename: env.lt_filename.jar
+    lt_jar_md5_filename: env.lt_filename-jar-checksum.txt
+    lt_zip_filename: env.lt_filename.zip
+    lt_zip_md5_filename: env.lt_filename-zip-checksum.txt
 
 jobs:
   build:
@@ -44,12 +44,7 @@ jobs:
       #if: ${{ DEBUG }}
       run: |
         echo lt_tag [${{ lt_tag ]}];
-        echo lt_base_filename [${{ lt_base_filename }}];
-        echo lt_filename [${{ lt_filename }}];
-        echo lt_jar_filename [${{ lt_jar_filename }}];
-        echo lt_jar_md5_filename [${{ lt_jar_md5_filename }}];
-        echo lt_zip_filename [${{ lt_zip_filename }}];
-        echo lt_zip_md5_filename [${{ lt_zip_md5_filename }}];
+
       
       
         
