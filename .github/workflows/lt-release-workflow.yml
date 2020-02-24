@@ -12,16 +12,17 @@ env:
     lt_tag: t${{ github.event.release.tag_name }}t
 
 jobs:
+  
+      
   build:
     runs-on: ubuntu-latest
 
-    env:
-      lt_filename: ${{ env.lt_base_filename }}-${{ env.lt_tag }}
 
 
     steps:
     - name: Debug Stuff       
       env:
+        lt_filename: ${{ env.lt_base_filename }}-${{ env.lt_tag }}
         lt_jar_filename: ${{ env.lt_filename }}.jar
         lt_jar_md5_filename: ${{ env.lt_filename }}-jar-checksum.txt
         lt_zip_filename: ${{ env.lt_filename }}.zip
