@@ -18,6 +18,7 @@ jobs:
     env:
       lt_tag: ${{ github.event.release.tag_name }}
       lt_base_filename: liliths-throne
+      lt_filename: ${{ lt_base_filename }}-${{ lt_tag }}
 
 
     steps:
@@ -27,8 +28,7 @@ jobs:
     - name: Debug Stuff
       env:
         local_var: something
-      run: |
-        echo See what works ....
+      
 
         
       
