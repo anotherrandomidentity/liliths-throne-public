@@ -18,7 +18,7 @@ jobs:
     env:
       lt_tag: ${{ github.event.release.tag_name }}
       lt_base_filename: liliths-throne
-      lt_filename: ${{ lt_base_filename }}-${{ lt_tag }}
+      lt_filename: ${lt_base_filename}-${lt_tag}
 
 
     steps:
