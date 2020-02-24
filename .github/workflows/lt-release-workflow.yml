@@ -27,7 +27,7 @@ jobs:
           
           
     - name: asdf
-      run: echo action_state [${{ action_state }}];
+      run: |
         echo env-action_state [$ {{ env.action_state }}]
           
           
@@ -43,7 +43,7 @@ jobs:
     - name: Envioronment Variables (Debug)
       #if: ${{ DEBUG }}
       run: |
-        echo lt_tag [${{ lt_tag ]}];
+        echo lt_tag 
 
       
       
