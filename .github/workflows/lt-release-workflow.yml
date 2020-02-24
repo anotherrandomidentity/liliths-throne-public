@@ -5,6 +5,17 @@ on:
   release:
     types: [published]
 
+env:
+    DEBUG: true
+   
+    lt_tag: ${{ github.event.release.tag_name }}
+    lt_base_filename: liliths-throne
+    lt_filename: ${lt_base_filename}-${lt_tag}
+    lt_jar_filename: ${lt_filename}.jar
+    lt_jar_md5_filename: ${lt_filename}-jar-checksum.txt
+    lt_zip_filename: ${lt_filename}.zip
+    lt_zip_md5_filename: ${lt_filename}-zip-checksum.txt
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,7 +30,19 @@ jobs:
 # works, but let's be specific ... just in case
 # java-version: 1.8
 
-
+    - name: Envioronment Variables (Debug)
+      #if: ${DEBUG}
+      run: |
+        echo lt_tag [${lt_tag}];
+        echo lt_base_filename [${lt_base_filename}];
+        echo lt_filename [${lt_filename}];
+        echo lt_jar_filename [${lt_jar_filename}];
+        echo lt_jar_md5_filename [${lt_jar_md5_filename}];
+        echo lt_zip_filename [${lt_zip_filename}];
+        echo lt_zip_md5_filename [${lt_zip_md5_filename}];
+      
+      
+        
 
     - name: BREAKPOINT
       run: exit 1
