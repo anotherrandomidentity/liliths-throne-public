@@ -7,7 +7,7 @@ on:
 
 env:
     DEBUG: true
-   
+    
     lt_tag: ${{ github.event.release.tag_name }}
     lt_base_filename: liliths-throne
     lt_filename: ${{ env.lt_base_filename }}-${{ env.lt_tag }}
@@ -21,6 +21,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    
+    - name: Set Environment
+      run: echo "::set-env name=action_state::yellow"
+          
+          
+    - name: asdf
+      run: echo action_state [${{ action_state }}];
+        echo env-action_state [$ {{ env.action_state }}]
+          
+          
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
