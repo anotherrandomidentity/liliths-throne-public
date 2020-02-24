@@ -19,6 +19,12 @@ jobs:
 # works, but let's be specific ... just in case
 # java-version: 1.8
 
+
+
+    - name: BREAKPOINT
+      run: exit 1
+
+
     - name: Build
       run: mvn -B package --file pom.xml
 
