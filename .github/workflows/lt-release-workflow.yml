@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:  
-      lt_filename: ${{ env.lt_base_filename }}-${{ env.lt_tag }}
+      lt_filename: ${{ lt_base_filename }}-${{ lt_tag }}
 
 
     steps:
