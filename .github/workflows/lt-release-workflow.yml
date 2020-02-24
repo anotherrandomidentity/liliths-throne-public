@@ -9,7 +9,8 @@ on:
 env:
     DEBUG: true
     lt_base_filename: liliths-throne
-    lt_tag: t${{ github.event.release.tag_name }}t
+    lt_tag: ${{ github.event.release.tag_name }}
+    lt_filename: liliths-throne-${{ github.event.release.tag_name }}
 
 jobs:
   
@@ -17,12 +18,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-
-
     steps:
     - name: Debug Stuff       
       env:
-        lt_filename: ${{ env.lt_base_filename }}-${{ env.lt_tag }}
         lt_jar_filename: ${{ env.lt_filename }}.jar
         lt_jar_md5_filename: ${{ env.lt_filename }}-jar-checksum.txt
         lt_zip_filename: ${{ env.lt_filename }}.zip
@@ -56,7 +54,7 @@ jobs:
       run: exit 1
 
 
-    - name: Build
+    - name: Build LT Version ${{ env.lt_tag }}
       run: mvn -B package --file pom.xml
 
     - name: Clean Up Build Files
