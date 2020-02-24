@@ -8,27 +8,32 @@ on:
 env:
     DEBUG: true
     
-    lt_tag: ${{ github.event.release.tag_name }}
-    lt_base_filename: liliths-throne
-    lt_filename: env.lt_base_filename-env.lt_tag
-    lt_jar_filename: env.lt_filename.jar
-    lt_jar_md5_filename: env.lt_filename-jar-checksum.txt
-    lt_zip_filename: env.lt_filename.zip
-    lt_zip_md5_filename: env.lt_filename-zip-checksum.txt
+
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      lt_tag: ${{ github.event.release.tag_name }}
+      lt_base_filename: liliths-throne
+
+
     steps:
-    
-    - name: Set Environment
-      run: echo "::set-env name=action_state::yellow"
+
           
           
-    - name: asdf
+    - name: Debug Stuff
+      env:
+        local_var: something
       run: |
-        echo env-action_state [$ {{ env.action_state }}]
+        echo See what works ....
+        echo local_var [$local_var]
+        echo local_var [${ local_var }]
+        echo local_var [${{ local_var }}]
+        echo local_var [${{ env.local_var }}]
+        
+      
           
           
     - uses: actions/checkout@v2
