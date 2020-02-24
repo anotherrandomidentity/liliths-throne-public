@@ -27,7 +27,7 @@ jobs:
       run: |
         echo asdf
         echo one [$lt_base_filename]
-        echo two [${{ lt_base_filename }}]
+        echo two [${{ env.lt_base_filename }}]
       
 
         
