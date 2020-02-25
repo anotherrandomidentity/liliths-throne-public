@@ -63,7 +63,7 @@ jobs:
                 env:
                     LT_ZIP_FILENAME: ${{ env.lt_filename }}.zip
                 run: |
-                    mv target $ {{ env.lt_base_filename }}
+                    mv target ${{ env.lt_base_filename }}
                     zip -r ${{ env.LT_ZIP_FILENAME }} ${{ env.lt_base_filename }}
 
             # Upload liliths-throne-<version>.zip (Complete with /res)
