@@ -2,9 +2,9 @@ name: LT Release
 
 
 on:
-  push:
-  #release:
-  #  types: [published]
+    push:
+    release:
+        types: [published]
 
 env:
     DEBUG: true
@@ -13,86 +13,90 @@ env:
     lt_filename: liliths-throne-${{ github.event.release.tag_name }}
 
 jobs:
-  
-      
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Debug Stuff       
-      env:
-        lt_jar_filename: ${{ env.lt_filename }}.jar
-        lt_jar_md5_filename: ${{ env.lt_filename }}-jar-checksum.txt
-        lt_zip_filename: ${{ env.lt_filename }}.zip
-        lt_zip_md5_filename: ${{ env.lt_filename }}-zip-checksum.txt
-      run: |
-        echo adsf
-        echo querty
- 
- 
- 
-      
-    - uses: actions/checkout@v2
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
-      with:
-        java-version: 8.0.192
-        java-package: jdk+fx
-# works, but let's be specific ... just in case
-# java-version: 1.8
-
-    - name: Envioronment Variables (Debug)
-      #if: ${{ DEBUG }}
-      run: |
-        echo lt_tag 
-
-      
-      
-        
-
-    - name: BREAKPOINT
-      run: exit 1
 
 
-    - name: Build LT Version ${{ env.lt_tag }}
-      run: mvn -B package --file pom.xml
+    build:
+        runs-on: ubuntu-latest
 
-    - name: Clean Up Build Files
-      run: rm -rf target/classes; 
-        rm -rf target/generated-sources;
-        rm -rf target/maven-archiver;
-        mv target/game-1.jar target/liliths-throne-${{ github.event.release.tag_name }}.jar
+        steps:
+            -   uses: actions/checkout@v2
 
-    - name: Upload Build Artifact
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: liliths-throne-${{ github.event.release.tag_name }}
-        path: target
-        id: lt-build-artifact
+            # Set up environment variables needed down the line
+            -   name: Set Environment Variables
+                run: echo asdf
 
-    - name: Upload Release Asset (JAR)
-      id: upload-release-asset-jar
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./target/liliths-throne-${{ github.event.release.tag_name }}.jar
-        asset_name: liliths-throne-${{ github.event.release.tag_name }}.jar
-        asset_content_type: application/zip  
+            # works with "java-version: 1.8", but let's be specific ... just in case
+            -   name: Set up JDK 1.8
+                uses: actions/setup-java@v1
+                with:
+                    java-version: 8.0.192
+                    java-package: jdk+fx
 
-    - name: Zip Release Asset
-      run: mv target liliths-throne; zip -r liliths-throne-${{ github.event.release.tag_name }}.zip liliths-throne
+            # Build LT
+            -   name: Build LT (via Maven)
+                run: mvn -B package --file pom.xml
 
-    - name: Upload Release Asset (ZIP)
-      id: upload-release-asset-zip
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./liliths-throne-${{ github.event.release.tag_name }}.zip
-        asset_name: liliths-throne-${{ github.event.release.tag_name }}.zip
-        asset_content_type: application/zip  
-        
-    
+            # Remove unnecessary files leftover from build; Rename game-1.jar to liliths-throne-<version>.jar
+            -   name: Clean Up Build Files
+                env:
+                    LT_JAR_FILENAME: ${{ env.lt_filename }}.jar
+                run: |
+                    rm -rf target/classes
+                    rm -rf target/generated-sources
+                    rm -rf target/maven-archiver
+                    mv target/game-1.jar target/${{ env.LT_JAR_FILENAME }}
+
+            # Upload liliths-throne-<version>.jar
+            -   name: Upload Release Assest (JAR only)
+                uses: actions/upload-release-asset@v1
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                    LT_JAR_FILENAME: ${{ env.lt_filename }}.jar
+                with:
+                    upload_url: ${{ github.event.release.upload_url }}
+                    asset_path: target/${{ env.LT_JAR_FILENAME }}
+                    asset_name: ${{ env.LT_JAR_FILENAME }}
+                    asset_content_type: application/zip
+
+            # Rename /target to /liliths-throne, then zip it all up
+            -   name: Zip Release Asset
+                env:
+                    LT_ZIP_FILENAME: ${{ env.lt_filename }}.zip
+                run: |
+                    mv target $ {{ env.lt_base_filename }}
+                    zip -r ${{ env.LT_ZIP_FILENAME }} ${{ env.lt_base_filename }}
+
+            # Upload liliths-throne-<version>.zip (Complete with /res)
+            -   name: Upload Release Asset (ZIP, complete)
+                uses: actions/upload-release-asset@v1
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                    LT_ZIP_FILENAME: ${{ env.lt_filename }}.zip
+                with:
+                    upload_url: ${{ github.event.release.upload_url }}
+                    asset_path: target/${{ env.LT_ZIP_FILENAME }}
+                    asset_name: ${{ env.LT_ZIP_FILENAME }}
+                    asset_content_type: application/zip
+
+            # Generate checksums
+            -   name: Generate Checksums
+                env:
+                    LT_JAR_FILENAME: ${{ env.lt_filename }}.jar
+                    LT_ZIP_FILENAME: ${{ env.lt_filename }}.zip
+                    LT_MD5_FILENAME: md5-checksums.txt
+                run: |
+                    md5 target/${{ env.LT_JAR_FILENAME }} > ${{ env.LT_MD5_FILENAME }}
+                    md5 target/${{ env.LT_ZIP_FILENAME }} >> ${{ env.LT_MD5_FILENAME }}
+
+            # Upload checksums
+            -   name: Upload MD5 Checksums Asset
+                uses: actions/upload-release-asset@v1
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                    LT_MD5_FILENAME: md5-checksums.txt
+                with:
+                    upload_url: ${{ github.event.release.upload_url }}
+                    asset_path: target/${{ env.LT_MD5_FILENAME }}
+                    asset_name: ${{ env.LT_MD5_FILENAME }}
+                    asset_content_type: application/zip
+
