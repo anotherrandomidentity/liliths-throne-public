@@ -83,21 +83,21 @@ jobs:
                 env:
                     LT_JAR_FILENAME: ${{ env.lt_filename }}.jar
                     LT_ZIP_FILENAME: ${{ env.lt_filename }}.zip
-                    LT_MD5_FILENAME: ${{ env.lt_filename }}-checksums.txt
+                    LT_CHECKSUM_FILENAME: ${{ env.lt_filename }}-checksums.txt
                 run: |
-                    md5sum --tag ${{ env.LT_ZIP_FILENAME }} >> ${{ env.LT_MD5_FILENAME }}
-                    sha256sum --tag ${{ env.LT_ZIP_FILENAME }} >> ${{ env.LT_MD5_FILENAME }}
-                    #md5sum target/${{ env.LT_JAR_FILENAME }} > ${{ env.LT_MD5_FILENAME }}
+                    md5sum --tag ${{ env.LT_ZIP_FILENAME }} >> ${{ env.LT_CHECKSUM_FILENAME }}
+                    sha256sum --tag ${{ env.LT_ZIP_FILENAME }} >> ${{ env.LT_CHECKSUM_FILENAME }}
+                    #md5sum target/${{ env.LT_JAR_FILENAME }} > ${{ env.LT_CHECKSUM_FILENAME }}
 
             # Upload checksums
             -   name: Upload MD5 Checksums Asset
                 uses: actions/upload-release-asset@v1
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                    LT_MD5_FILENAME: md5-checksums.txt
+                    LT_CHECKSUM_FILENAME: ${{ env.lt_filename }}-checksums.txt
                 with:
                     upload_url: ${{ github.event.release.upload_url }}
-                    asset_path: ${{ env.LT_MD5_FILENAME }}
-                    asset_name: ${{ env.LT_MD5_FILENAME }}
+                    asset_path: ${{ env.LT_CHECKSUM_FILENAME }}
+                    asset_name: ${{ env.LT_CHECKSUM_FILENAME }}
                     asset_content_type: application/zip
 
