@@ -74,7 +74,7 @@ jobs:
                     LT_ZIP_FILENAME: ${{ env.lt_filename }}.zip
                 with:
                     upload_url: ${{ github.event.release.upload_url }}
-                    asset_path: target/${{ env.LT_ZIP_FILENAME }}
+                    asset_path: ${{ env.LT_ZIP_FILENAME }}
                     asset_name: ${{ env.LT_ZIP_FILENAME }}
                     asset_content_type: application/zip
 
@@ -86,7 +86,7 @@ jobs:
                     LT_MD5_FILENAME: md5-checksums.txt
                 run: |
                     md5 target/${{ env.LT_JAR_FILENAME }} > ${{ env.LT_MD5_FILENAME }}
-                    md5 target/${{ env.LT_ZIP_FILENAME }} >> ${{ env.LT_MD5_FILENAME }}
+                    md5 ${{ env.LT_ZIP_FILENAME }} >> ${{ env.LT_MD5_FILENAME }}
 
             # Upload checksums
             -   name: Upload MD5 Checksums Asset
@@ -96,7 +96,7 @@ jobs:
                     LT_MD5_FILENAME: md5-checksums.txt
                 with:
                     upload_url: ${{ github.event.release.upload_url }}
-                    asset_path: target/${{ env.LT_MD5_FILENAME }}
+                    asset_path: ${{ env.LT_MD5_FILENAME }}
                     asset_name: ${{ env.LT_MD5_FILENAME }}
                     asset_content_type: application/zip
 
