@@ -85,8 +85,8 @@ jobs:
                     LT_ZIP_FILENAME: ${{ env.lt_filename }}.zip
                     LT_MD5_FILENAME: md5-checksums.txt
                 run: |
-                    md5sum target/${{ env.LT_JAR_FILENAME }} > ${{ env.LT_MD5_FILENAME }}
                     md5sum ${{ env.LT_ZIP_FILENAME }} >> ${{ env.LT_MD5_FILENAME }}
+                    #md5sum target/${{ env.LT_JAR_FILENAME }} > ${{ env.LT_MD5_FILENAME }}
 
             # Upload checksums
             -   name: Upload MD5 Checksums Asset
