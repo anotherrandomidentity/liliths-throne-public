@@ -2,7 +2,7 @@ name: LT Release
 
 
 on:
-    push:
+    #push:
     release:
         types: [published]
 
