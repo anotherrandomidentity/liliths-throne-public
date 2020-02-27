@@ -2,12 +2,10 @@ name: LT Release
 
 
 on:
-    #push:
     release:
         types: [published]
 
 env:
-    DEBUG: true
     lt_base_filename: liliths-throne
     lt_tag: ${{ github.event.release.tag_name }}
     lt_filename: liliths-throne-${{ github.event.release.tag_name }}
